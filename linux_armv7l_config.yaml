@@ -4,6 +4,8 @@ c_compiler_version:
 - '12'
 cdt_name:
 - cos7
+cdt_arch:
+- armv7l
 channel_sources:
 - conda-forge
 channel_targets:
@@ -21,9 +23,7 @@ python:
 - 3.10.* *_cpython
 - 3.9.* *_cpython
 - 3.8.* *_cpython
-- 3.7.* *_cpython
 python_impl:
-- cpython
 - cpython
 - cpython
 - cpython
