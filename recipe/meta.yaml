@@ -1,4 +1,4 @@
-{% set version = "41.0.3" %}
+{% set version = "42.0.8" %}
 
 package:
   name: cryptography-split
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/pyca/cryptography/archive/refs/tags/{{ version }}.tar.gz
-  sha256: bc8427b5f09417108297b3f50b5f52f8e84ee6ebc2f073d83ffec4d39896c271
+  sha256: 38ee4ce0804e4003e3093db8342cd7e6ee65614c8bbf70c98f1716e0f33709ed
 
 build:
   number: 0
@@ -65,6 +65,7 @@ outputs:
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - cffi >=1.12                            # [build_platform != target_platform and python_impl != "pypy"]
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('rust') }}
       host:
         - python
@@ -72,10 +73,10 @@ outputs:
         - pip
         - setuptools-rust >=0.11.4
         - openssl
-        - cffi >=1.12   # [python_impl != "pypy"]
+        - cffi >=1.12       # [python_impl != "pypy"]
       run:
         - python
-        - cffi >=1.12   # [python_impl != "pypy"]
+        - cffi >=1.12       # [python_impl != "pypy"]
     test:
       imports:
         - cryptography
@@ -92,6 +93,7 @@ outputs:
         - cryptography.hazmat.primitives.twofactor
         - cryptography.x509
       requires:
+        - certifi
         - cryptography-vectors {{ version }}
         - hypothesis
         - iso8601
@@ -106,7 +108,8 @@ outputs:
         - pyproject.toml
       commands:
         # run_test.py will check that the correct openssl version is linked
-        - pytest
+        # skip a test due to https://github.com/pyca/cryptography/issues/9950
+        - pytest tests -k "not (TestRSADecryption and test_decrypt_invalid_decrypt)"
 
 about:
   home: https://cryptography.io
