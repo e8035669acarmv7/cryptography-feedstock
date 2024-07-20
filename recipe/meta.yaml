@@ -7,6 +7,10 @@ package:
 source:
   url: https://github.com/pyca/cryptography/archive/refs/tags/{{ version }}.tar.gz
   sha256: 38ee4ce0804e4003e3093db8342cd7e6ee65614c8bbf70c98f1716e0f33709ed
+  patches:
+    # Disable some test on 32bit
+    # https://github.com/pyca/cryptography/commit/d741901dddd731895346636c0d3556c6fa51fbe6.patch
+    - patches/d741901dddd731895346636c0d3556c6fa51fbe6.patch
 
 build:
   number: 0
